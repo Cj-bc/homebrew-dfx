@@ -25,10 +25,26 @@ class Dfx < Formula
     ENV["DFX_INSTALL_ROOT"] = prefix
 
     ohai "Start official install script."
-    system "sh -i #{buildpath}/install.sh"
+
+    require "open3"
+    Open3.popen3("sh", "-i", "#{buildpath}/install.sh") do |stdin, stdout, stderr, t|
+      stdout.each(chomp: false) do |l|
+        odie l if l.match?("Please accept the license to continue.")
+
+        ohai l
+
+        if l.match?(/\[y\/N\]/)
+          opoo "Please read above and answer with y/N..."
+          stdin << $stdin.gets
+          stdin.close
+        end
+      end
+
+      stdout.each(chomp: false) {|l| ohai l}
+
+      t.join
+    end
 
     bin.install "#{prefix}/dfx"
-
   end
-
 end
