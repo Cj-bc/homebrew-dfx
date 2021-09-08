@@ -1,0 +1,13 @@
+* Unofficial homebrew formulae for Dfinity SDK
+
+  Homebrew formulae for [[https://dfinity.org]]. Visit
+  [[https://dfinity.org/developers]] for official document.
+
+** How to use
+
+  Simply do:
+
+  #+begin_src sh
+  brew tap Cj-bc/dfx
+  brew install dfx
+  #+end_src
